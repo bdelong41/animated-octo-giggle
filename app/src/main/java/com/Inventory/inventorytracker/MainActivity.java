@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 qrCodeTxt.setText(getValue);
                                 dbHandler.addNewData("test 1", "test 2", "test 3");
+                                qrCodeTxt.setText(qrCodeTxt.getText() + dbHandler.getDatabaseName());
                             }
 
                             image.close();
