@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.Manifest;
 import android.widget.Toast;
 
+import com.Inventory.inventorytracker.DataBase.DBHandler;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText qrCodeTxt;
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
+    private DBHandler dbHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         qrCodeTxt = findViewById(R.id.qrCideTxt);
         previewView = findViewById(R.id.cameraPreview);
-
+        dbHandler = new DBHandler(MainActivity.this);
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             init();
         }
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                                 final String getValue = barcode.getRawValue();
 
                                 qrCodeTxt.setText(getValue);
+                                dbHandler.addNewData("test 1", "test 2", "test 3");
                             }
 
                             image.close();
