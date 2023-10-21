@@ -15,6 +15,8 @@ import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Size;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.Manifest;
 import android.widget.Toast;
@@ -33,17 +35,29 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     private EditText qrCodeTxt;
+    private EditText boxName;
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private DBHandler dbHandler;
+    private Button addBox;
+    private Integer boxID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
 
         qrCodeTxt = findViewById(R.id.qrCideTxt);
+        boxName = findViewById(R.id.boxName);
+        addBox = findViewById(R.id.addBox);
         previewView = findViewById(R.id.cameraPreview);
         dbHandler = new DBHandler(MainActivity.this);
+        dbHandler.createBox(30);
+        //adding click listener to button
+        addBox.setOnClickListener((view) ->{
+            if(boxID != null) createBox(boxID);
+        });
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             init();
         }
@@ -104,9 +118,16 @@ public class MainActivity extends AppCompatActivity {
                             for(Barcode barcode: barcodes){
                                 final String getValue = barcode.getRawValue();
 
+                                try{
+                                    //try casting barcode data to integer
+                                    boxID = Integer.parseInt(getValue);
+                                    boxName.setText(dbHandler.getData(boxID));
+                                }catch(Exception e){
+                                    qrCodeTxt.setText("Failed to parse barcode as integer");
+                                    e.printStackTrace();
+                                }
+
                                 qrCodeTxt.setText(getValue);
-                                dbHandler.addNewData("test 1", "test 2", "test 3");
-                                qrCodeTxt.setText(qrCodeTxt.getText() + dbHandler.getDatabaseName());
                             }
 
                             image.close();
@@ -121,5 +142,20 @@ public class MainActivity extends AppCompatActivity {
         CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
         preview.setSurfaceProvider((previewView.getSurfaceProvider()));
         processCameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
+    }
+
+
+    public void createBox(Integer boxID){
+        dbHandler.createBox(boxID);
+        updateBox(boxID, "Sample data,");
+
+    }
+    public void updateBox(Integer boxID, String data){
+        dbHandler.updateData(boxID, data, "Owner");
+//        getBox(boxID);
+
+    }
+    public void getBox(Integer boxID){
+        boxName.setText(dbHandler.getData(boxID));
     }
 }

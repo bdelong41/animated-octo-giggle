@@ -6,15 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Add Box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/addBox"/>
+
+    <EditText
+        android:id="@+id/boxName"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        tools:text="@tools:sample/first_names" />
 
     <EditText
         android:id="@+id/qrCideTxt"
