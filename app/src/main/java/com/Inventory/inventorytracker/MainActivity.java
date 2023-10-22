@@ -152,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void updateBox(Integer boxID, String data){
         dbHandler.updateData(boxID, data, "Owner");
+//        boxName.setText(Integer.toString(dbHandler.updateData(boxID, data, "Owner")));
+        getBox(boxID);
 //        getBox(boxID);
 
     }

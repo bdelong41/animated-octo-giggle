@@ -106,28 +106,32 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
     public String getData(Integer ID){
-        String str = "Nothing Here";
+        String str = "";
         SQLiteDatabase db = this.getReadableDatabase();
 
         // on below line we are creating a cursor with query to
         // read data from database.
         Cursor cursorCourses
-                = db.rawQuery("SELECT * FROM " + TABLE_NAME + "WHERE id = " + ID, null);
+                = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE id = " + ID, null);
 
 
         // moving our cursor to first position.
         if (cursorCourses.moveToFirst()) {
 
             cursorCourses.getString(1);
-            str = cursorCourses.getInt(1) + cursorCourses.getInt(2) + cursorCourses.getString(3) + cursorCourses.getString(4) + cursorCourses.getString(4);
+            String s2tr = cursorCourses.getInt(1) + cursorCourses.getInt(2) + cursorCourses.getString(3) + cursorCourses.getString(4) + cursorCourses.getString(4);
+            cursorCourses.close();
+            return s2tr;
         }
         // at last closing our cursor
         // and returning our array list.
-        cursorCourses.close();
-        return str;
+        else {
+            cursorCourses.close();
+            return str;
+        }
     }
 
-    public void updateData(Integer boxID, String contents, String owner){
+    public Integer updateData(Integer boxID, String contents, String owner){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -135,10 +139,11 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(Contents, contents);
         values.put(Description, contents);
 
-        db.update(TABLE_NAME, values, PackageID + "=?", new String[]{Integer.toString(boxID)});
+        Integer success = db.update(TABLE_NAME, values, PackageID + "=?", new String[]{Integer.toString(boxID)});
 
 
         db.close();
+        return success;
     }
 
     public void basicDatabaseRoutine(){
