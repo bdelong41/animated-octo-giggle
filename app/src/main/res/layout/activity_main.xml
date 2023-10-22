@@ -16,6 +16,13 @@
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/addBox"/>
 
+    <Button
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:text="clearDatabase"
+        android:id="@+id/clearDatabase"
+        />
+
     <EditText
         android:id="@+id/boxName"
         android:layout_width="match_parent"

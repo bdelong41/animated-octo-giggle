@@ -11,6 +11,7 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
@@ -40,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private DBHandler dbHandler;
     private Button addBox;
+    private Button clearData;
     private Integer boxID;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +54,16 @@ public class MainActivity extends AppCompatActivity {
         qrCodeTxt = findViewById(R.id.qrCideTxt);
         boxName = findViewById(R.id.boxName);
         addBox = findViewById(R.id.addBox);
+        clearData = findViewById(R.id.clearDatabase);
         previewView = findViewById(R.id.cameraPreview);
         dbHandler = new DBHandler(MainActivity.this);
         dbHandler.createBox(30);
         //adding click listener to button
         addBox.setOnClickListener((view) ->{
             if(boxID != null) createBox(boxID);
+        });
+        clearData.setOnClickListener((view) ->{
+            dbHandler.deleteTable();
         });
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             init();

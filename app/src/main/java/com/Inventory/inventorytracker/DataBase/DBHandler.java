@@ -145,36 +145,9 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
         return success;
     }
-
-    public void basicDatabaseRoutine(){
-        Integer pID = 25;
-        //add table row
+    public void deleteTable(){
         SQLiteDatabase db = this.getWritableDatabase();
-
-        // on below line we are creating a
-        // variable for content values.
-        ContentValues values = new ContentValues();
-
-        values.put(PackageID, pID);
-        values.put(Owner, "owner");
-        values.put(Contents, "contents");
-        values.put(Description, "Description");
-
-//        ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                + PackageID + "INTEGER NOT NULL,"
-//                + Owner + " TEXT,"
-//                + Contents + " TEXT,"
-//                + Description + " TEXT)";
-
-        // after adding all values we are passing
-        // content values to our table.
-        db.insert(TABLE_NAME, null, values);
-
-        // at last we are closing our
-        // database after adding database.
-        db.close();
-        //update table row
-        //display table row
+        db.delete(TABLE_NAME, "id >?", new String[]{Integer.toString(0)});
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
