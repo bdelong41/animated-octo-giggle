@@ -112,7 +112,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // on below line we are creating a cursor with query to
         // read data from database.
         Cursor cursorCourses
-                = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE id = " + ID, null);
+                = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE pID = " + ID + " limit 1", null);
 
 
         // moving our cursor to first position.
@@ -165,6 +165,29 @@ public class DBHandler extends SQLiteOpenHelper {
         // on below line we are calling a method to delete our
         // course and we are comparing it with our course name.
         db.delete(TABLE_NAME, "name=?", new String[]{TABLE_NAME});
+        db.close();
+    }
+
+    public void seedTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // on below line we are creating a
+        // variable for content values.
+        ContentValues values = new ContentValues();
+
+        // on below line we are passing all values
+        // along with its key and value pair.
+        values.put(Owner, "Name");
+        values.put(Contents, "Contents1, Contents2");
+        values.put(Description, "Package Description");
+        values.put(PackageID, 100);
+
+        // after adding all values we are passing
+        // content values to our table.
+        db.insert(TABLE_NAME, null, values);
+
+        // at last we are closing our
+        // database after adding database.
         db.close();
     }
 }

@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private DBHandler dbHandler;
     private Button addBox;
     private Button clearData;
+    private Button UpdateBox;
+    private Button GetBox;
     private Integer boxID;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,16 +56,30 @@ public class MainActivity extends AppCompatActivity {
         qrCodeTxt = findViewById(R.id.qrCideTxt);
         boxName = findViewById(R.id.boxName);
         addBox = findViewById(R.id.addBox);
+        UpdateBox = findViewById(R.id.UpdateBox);
+        GetBox = findViewById(R.id.GetBox);
         clearData = findViewById(R.id.clearDatabase);
         previewView = findViewById(R.id.cameraPreview);
         dbHandler = new DBHandler(MainActivity.this);
         dbHandler.createBox(30);
         //adding click listener to button
         addBox.setOnClickListener((view) ->{
-            if(boxID != null) createBox(boxID);
+            if(boxID != null) {
+                createBox(boxID);
+                updateBox(boxID, String.valueOf(boxName.getText()));
+            }
+
         });
         clearData.setOnClickListener((view) ->{
-            dbHandler.deleteTable();
+            //dbHandler.deleteTable();
+            dbHandler.seedTable();
+        });
+        UpdateBox.setOnClickListener((view) ->{
+            if(boxID != null) updateBox(boxID, String.valueOf(boxName.getText()));
+        });
+        GetBox.setOnClickListener((view) ->{
+            boxID = Integer.parseInt(String.valueOf(qrCodeTxt.getText()));
+            getBox(boxID);
         });
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             init();
