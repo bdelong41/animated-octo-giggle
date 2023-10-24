@@ -7,80 +7,80 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="78dp"
-        android:orientation="horizontal">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="78dp"-->
+<!--        android:orientation="horizontal">-->
 
-        <Button
-            android:id="@+id/clearDatabase"
-            android:layout_width="104dp"
-            android:layout_height="wrap_content"
-            android:text="clearDatabase" />
+<!--        <Button-->
+<!--            android:id="@+id/clearDatabase"-->
+<!--            android:layout_width="104dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="clearDatabase" />-->
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            />-->
 
-        <Button
-            android:id="@+id/addBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Box"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <Button-->
+<!--            android:id="@+id/addBox"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Add Box"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <Button
-            android:id="@+id/UpdateBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="UpdateBox" />
-    </LinearLayout>
+<!--        <Button-->
+<!--            android:id="@+id/UpdateBox"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="UpdateBox" />-->
+<!--    </LinearLayout>-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:orientation="horizontal">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="43dp"-->
+<!--        android:orientation="horizontal">-->
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1" />-->
 
-        <Button
-            android:id="@+id/GetBox"
-            android:layout_width="55dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="GetBox" />
+<!--        <Button-->
+<!--            android:id="@+id/GetBox"-->
+<!--            android:layout_width="55dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="GetBox" />-->
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1" />-->
+<!--    </LinearLayout>-->
 
-    <EditText
-        android:id="@+id/boxName"
-        android:layout_width="match_parent"
-        android:layout_height="95dp"
-        tools:text="@tools:sample/first_names" />
+<!--    <EditText-->
+<!--        android:id="@+id/boxName"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="95dp"-->
+<!--        tools:text="@tools:sample/first_names" />-->
 
-    <EditText
-        android:id="@+id/qrCideTxt"
-        android:layout_width="match_parent"
-        android:layout_height="95dp"
-        tools:text="@tools:sample/first_names" />
+<!--    <EditText-->
+<!--        android:id="@+id/qrCideTxt"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="95dp"-->
+<!--        tools:text="@tools:sample/first_names" />-->
 
-    <androidx.camera.view.PreviewView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/cameraPreview"
-        />
+<!--    <androidx.camera.view.PreviewView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/cameraPreview"-->
+<!--        />-->
 
 </LinearLayout>

@@ -51,136 +51,137 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        setContentView(R.layout.activity_main);
-
-        qrCodeTxt = findViewById(R.id.qrCideTxt);
-        boxName = findViewById(R.id.boxName);
-        addBox = findViewById(R.id.addBox);
-        UpdateBox = findViewById(R.id.UpdateBox);
-        GetBox = findViewById(R.id.GetBox);
-        clearData = findViewById(R.id.clearDatabase);
-        previewView = findViewById(R.id.cameraPreview);
-        dbHandler = new DBHandler(MainActivity.this);
-        dbHandler.createBox(30);
-        //adding click listener to button
-        addBox.setOnClickListener((view) ->{
-            if(boxID != null) {
-                createBox(boxID);
-                updateBox(boxID, String.valueOf(boxName.getText()));
-            }
-
-        });
-        clearData.setOnClickListener((view) ->{
-            //dbHandler.deleteTable();
-            dbHandler.seedTable();
-        });
-        UpdateBox.setOnClickListener((view) ->{
-            if(boxID != null) updateBox(boxID, String.valueOf(boxName.getText()));
-        });
-        GetBox.setOnClickListener((view) ->{
-            boxID = Integer.parseInt(String.valueOf(qrCodeTxt.getText()));
-            getBox(boxID);
-        });
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
-            init();
-        }
-        else{
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, 101);
-        }
-    }
-
-    private void init(){
-        cameraProviderListenableFuture = ProcessCameraProvider.getInstance(MainActivity.this);
-        cameraProviderListenableFuture.addListener(new Runnable(){
-            @Override
-            public void run(){
-                try {
-                    ProcessCameraProvider cameraProvider = cameraProviderListenableFuture.get();
-                    bindImageAnalysis(cameraProvider);
-                }
-                catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, ContextCompat.getMainExecutor(MainActivity.this));
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            init();
-        }
-        else{
-            Toast.makeText(MainActivity.this, "Permissions Denied", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void bindImageAnalysis(ProcessCameraProvider processCameraProvider){
-        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder().setTargetResolution(new Size(1280, 720)).
-                setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
-
-        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(MainActivity.this), new ImageAnalysis.Analyzer() {
-            @Override
-            public void analyze(@NonNull ImageProxy image) {
-
-                Image mediaImage = image.getImage();
-
-                if(mediaImage != null){
-                    InputImage image2 = InputImage.fromMediaImage(mediaImage, image.getImageInfo().getRotationDegrees());
-
-                    BarcodeScanner scanner = BarcodeScanning.getClient();
-
-                    Task<List<Barcode>> results = scanner.process(image2);
-
-                    results.addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
-                        @Override
-                        public void onSuccess(List<Barcode> barcodes) {
-
-                            for(Barcode barcode: barcodes){
-                                final String getValue = barcode.getRawValue();
-
-                                try{
-                                    //try casting barcode data to integer
-                                    boxID = Integer.parseInt(getValue);
-                                    boxName.setText(dbHandler.getData(boxID));
-                                }catch(Exception e){
-                                    qrCodeTxt.setText("Failed to parse barcode as integer");
-                                    e.printStackTrace();
-                                }
-
-                                qrCodeTxt.setText(getValue);
-                            }
-
-                            image.close();
-                            mediaImage.close();
-                        }
-                    });
-                }
-            }
-        });
-
-        Preview preview = new Preview.Builder().build();
-        CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
-        preview.setSurfaceProvider((previewView.getSurfaceProvider()));
-        processCameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
-    }
-
-
-    public void createBox(Integer boxID){
-        dbHandler.createBox(boxID);
-        updateBox(boxID, "Sample data,");
-
-    }
-    public void updateBox(Integer boxID, String data){
-        dbHandler.updateData(boxID, data, "Owner");
-//        boxName.setText(Integer.toString(dbHandler.updateData(boxID, data, "Owner")));
-        getBox(boxID);
+//        setContentView(R.layout.activity_main);
+//
+//        qrCodeTxt = findViewById(R.id.qrCideTxt);
+//        boxName = findViewById(R.id.boxName);
+//        addBox = findViewById(R.id.addBox);
+//        UpdateBox = findViewById(R.id.UpdateBox);
+//        GetBox = findViewById(R.id.GetBox);
+//        clearData = findViewById(R.id.clearDatabase);
+//        previewView = findViewById(R.id.cameraPreview);
+//        dbHandler = new DBHandler(MainActivity.this);
+//        dbHandler.createBox(30);
+//        //adding click listener to button
+//        addBox.setOnClickListener((view) ->{
+//            if(boxID != null) {
+//                createBox(boxID);
+//                updateBox(boxID, String.valueOf(boxName.getText()));
+//            }
+//
+//        });
+//        clearData.setOnClickListener((view) ->{
+//            //dbHandler.deleteTable();
+//            dbHandler.seedTable();
+//        });
+//        UpdateBox.setOnClickListener((view) ->{
+//            if(boxID != null) updateBox(boxID, String.valueOf(boxName.getText()));
+//        });
+//        GetBox.setOnClickListener((view) ->{
+//            boxID = Integer.parseInt(String.valueOf(qrCodeTxt.getText()));
+//            getBox(boxID);
+//        });
+//        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+//            init();
+//        }
+//        else{
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, 101);
+//        }
+//    }
+//
+//    private void init(){
+//        cameraProviderListenableFuture = ProcessCameraProvider.getInstance(MainActivity.this);
+//        cameraProviderListenableFuture.addListener(new Runnable(){
+//            @Override
+//            public void run(){
+//                try {
+//                    ProcessCameraProvider cameraProvider = cameraProviderListenableFuture.get();
+//                    bindImageAnalysis(cameraProvider);
+//                }
+//                catch (ExecutionException | InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, ContextCompat.getMainExecutor(MainActivity.this));
+//    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//            init();
+//        }
+//        else{
+//            Toast.makeText(MainActivity.this, "Permissions Denied", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    private void bindImageAnalysis(ProcessCameraProvider processCameraProvider){
+//        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder().setTargetResolution(new Size(1280, 720)).
+//                setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
+//
+//        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(MainActivity.this), new ImageAnalysis.Analyzer() {
+//            @Override
+//            public void analyze(@NonNull ImageProxy image) {
+//
+//                Image mediaImage = image.getImage();
+//
+//                if(mediaImage != null){
+//                    InputImage image2 = InputImage.fromMediaImage(mediaImage, image.getImageInfo().getRotationDegrees());
+//
+//                    BarcodeScanner scanner = BarcodeScanning.getClient();
+//
+//                    Task<List<Barcode>> results = scanner.process(image2);
+//
+//                    results.addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
+//                        @Override
+//                        public void onSuccess(List<Barcode> barcodes) {
+//
+//                            for(Barcode barcode: barcodes){
+//                                final String getValue = barcode.getRawValue();
+//
+//                                try{
+//                                    //try casting barcode data to integer
+//                                    boxID = Integer.parseInt(getValue);
+//                                    boxName.setText(dbHandler.getData(boxID));
+//                                }catch(Exception e){
+//                                    qrCodeTxt.setText("Failed to parse barcode as integer");
+//                                    e.printStackTrace();
+//                                }
+//
+//                                qrCodeTxt.setText(getValue);
+//                            }
+//
+//                            image.close();
+//                            mediaImage.close();
+//                        }
+//                    });
+//                }
+//            }
+//        });
+//
+//        Preview preview = new Preview.Builder().build();
+//        CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
+//        preview.setSurfaceProvider((previewView.getSurfaceProvider()));
+//        processCameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
+//    }
+//
+//
+//    public void createBox(Integer boxID){
+//        dbHandler.createBox(boxID);
+//        updateBox(boxID, "Sample data,");
+//
+//    }
+//    public void updateBox(Integer boxID, String data){
+//        dbHandler.updateData(boxID, data, "Owner");
+////        boxName.setText(Integer.toString(dbHandler.updateData(boxID, data, "Owner")));
 //        getBox(boxID);
-
-    }
-    public void getBox(Integer boxID){
-        boxName.setText(dbHandler.getData(boxID));
+////        getBox(boxID);
+//
+//    }
+//    public void getBox(Integer boxID){
+//        boxName.setText(dbHandler.getData(boxID));
+//    }
     }
 }
