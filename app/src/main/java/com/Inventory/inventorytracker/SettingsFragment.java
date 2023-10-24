@@ -1,4 +1,4 @@
-package com.Inventory.inventorytracker;
+package com.inventory.myapplication;
 
 import android.os.Bundle;
 
