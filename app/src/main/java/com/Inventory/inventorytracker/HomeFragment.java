@@ -20,6 +20,8 @@ import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -82,7 +84,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        previewView = getActivity().findViewById(R.id.cameraPreview);
+//        getActivity().setContentView(R.layout.fragment_home);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -174,11 +177,15 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_home, container, false);
+        previewView = ll.findViewById(R.id.cameraPreview);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return ll;
 
 
     }
+
 
     @Override
     public void onAttach(Context context) {
