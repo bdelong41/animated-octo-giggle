@@ -82,19 +82,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        previewView = findViewById.findViewById(R.id.cameraPreview);
+        previewView = getActivity().findViewById(R.id.cameraPreview);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//        if(ContextCompat.checkSelfPermission(HomeFragment.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
-//            init();
-//        }
-//        else{
-//            ActivityCompat.requestPermissions(HomeFragment.this, new String[]{Manifest.permission.CAMERA}, 101);
-//        }
-        init();
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            init();
+        }
+        else{
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 101);
+        }
 
     }
 
@@ -178,6 +176,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+
+
     }
 
     @Override
