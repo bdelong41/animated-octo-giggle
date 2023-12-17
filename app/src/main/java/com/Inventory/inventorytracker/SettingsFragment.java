@@ -1,19 +1,33 @@
 package com.Inventory.inventorytracker;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.Inventory.inventorytracker.DataBase.DBHandler;
+import com.Inventory.inventorytracker.model.Box;
+import com.Inventory.inventorytracker.model.ScannedItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends ListFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +37,24 @@ public class SettingsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    //xml vars
+    private ListView listView;
+
+    private Button addButton;
+    private Button deleteButton;
+    private TextView nameView;
+
+    //local vars
+    private ArrayAdapter<String> adapter;
+    private String[] contents;
+    private Context context;
+
+    private ArrayList<String> currentContents;
+
+    private DBHandler dbHandler;
+    private ScannedItem scannedItem;
+    private Box currentBox;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -59,6 +91,24 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_settings, container, false);
+        dbHandler = new DBHandler(getActivity());
+        Box box = dbHandler.getData(100);
+        String fruits[] = {"apple", "Bread"};
+//        adapter = new ArrayAdapter<String>(context, R.id.listViewLinearLayout, contents);
+//        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.fruits_list, android.R.layout.simple_list_item_1);
+        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, box.getContents());
+        setListAdapter(arrayAdapter);
+        return ll;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    public void loadData(){
+        currentBox = dbHandler.getData(scannedItem.getBoxID());
     }
 }

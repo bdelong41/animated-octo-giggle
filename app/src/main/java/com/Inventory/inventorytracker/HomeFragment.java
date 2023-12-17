@@ -24,8 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.Inventory.inventorytracker.model.ScannedItem;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
@@ -57,6 +59,10 @@ public class HomeFragment extends Fragment {
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
 
     private Context context;
+
+    private FloatingActionButton fab;
+
+    ScannedItem scannedItem = new ScannedItem();
 
 
     public HomeFragment() {
@@ -96,6 +102,7 @@ public class HomeFragment extends Fragment {
         else{
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 101);
         }
+
 
     }
 
@@ -154,6 +161,7 @@ public class HomeFragment extends Fragment {
 
                                 try{
                                     //try casting barcode data to integer
+                                    scannedItem.setBoxID(Integer.parseInt(getValue));
                                 }catch(Exception e){
                                     e.printStackTrace();
                                 }
@@ -180,6 +188,14 @@ public class HomeFragment extends Fragment {
 
         RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_home, container, false);
         previewView = ll.findViewById(R.id.cameraPreview);
+        fab = ll.findViewById(R.id.scan);
+        fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+//                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+                if(scannedItem.getBoxID() != null) ((MainActivity)getActivity()).openSettings();
+
+            }
+        });
         // Inflate the layout for this fragment
         return ll;
 
@@ -191,6 +207,10 @@ public class HomeFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    public void openView(){
+
     }
 
 }

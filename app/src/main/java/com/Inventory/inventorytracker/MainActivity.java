@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.Inventory.inventorytracker.DataBase.DBHandler;
 import com.google.android.material.navigation.NavigationView;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+//        DBHandler dbHandler = new DBHandler(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -78,5 +81,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void openSettings(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
     }
 }

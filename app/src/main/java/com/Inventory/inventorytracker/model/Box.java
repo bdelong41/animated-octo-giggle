@@ -5,7 +5,7 @@ import java.util.List;
 public class Box {
 
     private String owner;
-    private List<String> contents;
+    private static List<String> contents;
 
     private Integer id;
     private Integer boxID;

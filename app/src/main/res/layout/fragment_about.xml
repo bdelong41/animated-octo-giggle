@@ -6,28 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".AboutFragment">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <Button>
-
-            </Button>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
 </RelativeLayout>

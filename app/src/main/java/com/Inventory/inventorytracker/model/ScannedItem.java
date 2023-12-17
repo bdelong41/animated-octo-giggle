@@ -2,10 +2,10 @@ package com.Inventory.inventorytracker.model;
 
 public class ScannedItem {
 
-    private static Integer boxID;
+    private static Integer boxID = 5;
 
-    public ScannedItem(Integer boxID) {
-        this.boxID = boxID;
+    public ScannedItem() {
+        this.boxID = 5;
     }
 
     public static Integer getBoxID() {

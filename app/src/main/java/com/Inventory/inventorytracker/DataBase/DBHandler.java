@@ -6,6 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.Inventory.inventorytracker.model.Box;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
 public class DBHandler extends SQLiteOpenHelper {
 
     // creating a constant variables for our database.
@@ -36,6 +43,9 @@ public class DBHandler extends SQLiteOpenHelper {
     // creating a constructor for our database handler.
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+//        dropTable();
+//        buildTable();
+        seedTable();
     }
 
     // below method is for creating a database by running a sqlite query
@@ -105,30 +115,32 @@ public class DBHandler extends SQLiteOpenHelper {
         // database after adding database.
         db.close();
     }
-    public String getData(Integer ID){
+    public Box getData(Integer ID){
+        Box box = null;
         String str = "";
         SQLiteDatabase db = this.getReadableDatabase();
 
         // on below line we are creating a cursor with query to
         // read data from database.
-        Cursor cursorCourses
+        Cursor cursor
                 = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE pID = " + ID + " limit 1", null);
 
-
         // moving our cursor to first position.
-        if (cursorCourses.moveToFirst()) {
+        if (cursor.moveToFirst()) {
 
-            cursorCourses.getString(1);
-            String s2tr = cursorCourses.getInt(1) + cursorCourses.getInt(2) + cursorCourses.getString(3) + cursorCourses.getString(4) + cursorCourses.getString(4);
-            cursorCourses.close();
-            return s2tr;
+            cursor.getString(1);
+            //delimiting db string
+            String[] contents = cursor.getString(3).split(",");
+            List<String> vals = new ArrayList<>(Arrays.asList("vals", "Vals2"));
+            box = new Box("Owner", new ArrayList<>(Arrays.asList(contents)), 1, 1 );
+            cursor.close();
         }
         // at last closing our cursor
         // and returning our array list.
         else {
-            cursorCourses.close();
-            return str;
+            cursor.close();
         }
+        return box;
     }
 
     public Integer updateData(Integer boxID, String contents, String owner){
@@ -168,6 +180,29 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void dropTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // on below line we are calling a method to delete our
+        // course and we are comparing it with our course name.
+        db.execSQL("drop table if exists " + TABLE_NAME);
+        db.close();
+    }
+
+    public void buildTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "CREATE TABLE " + TABLE_NAME + " ("
+                + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + PackageID + " INTEGER NOT NULL,"
+                + Owner + " TEXT,"
+                + Contents + " TEXT,"
+                + Description + " TEXT)";
+//
+//        // at last we are calling a exec sql
+//        // method to execute above sql query
+        db.execSQL(query);
+    }
+
     public void seedTable(){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -185,9 +220,10 @@ public class DBHandler extends SQLiteOpenHelper {
         // after adding all values we are passing
         // content values to our table.
         db.insert(TABLE_NAME, null, values);
-
         // at last we are closing our
         // database after adding database.
-        db.close();
+//        db.close();
+
+//        deleteTable();
     }
 }
