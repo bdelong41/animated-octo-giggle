@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.Inventory.inventorytracker.DataBase.DBHandler;
 import com.Inventory.inventorytracker.model.Box;
 import com.Inventory.inventorytracker.model.ScannedItem;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,8 @@ public class SettingsFragment extends ListFragment {
     private ScannedItem scannedItem;
     private Box currentBox;
 
+    private FloatingActionButton addFab;
+
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -92,6 +95,8 @@ public class SettingsFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_settings, container, false);
+        addFab = ll.findViewById(R.id.add);
+
         dbHandler = new DBHandler(getActivity());
         Box box = dbHandler.getData(100);
         String fruits[] = {"apple", "Bread"};
