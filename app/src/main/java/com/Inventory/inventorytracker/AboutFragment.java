@@ -8,6 +8,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
+import com.Inventory.inventorytracker.model.MyListAdapter;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,8 +32,19 @@ public class AboutFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    String s[] = new String[]{
+            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"
+    };
+    final ArrayList<String> list = new ArrayList<>();
+
+
     public AboutFragment() {
         // Required empty public constructor
+        for (int i = 0; i < s.length; i++) {
+            list.add(s[i]);
+        }
+
+
     }
 
     /**
@@ -60,6 +78,10 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false);
+        RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_about, container, false);
+        ListView listView = (ListView) ll.findViewById(R.id.listView);
+        MyListAdapter adapter = new MyListAdapter(getActivity(), s);
+        listView.setAdapter(adapter);
+        return ll;
     }
 }

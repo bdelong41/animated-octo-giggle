@@ -48,4 +48,8 @@ public class Box {
     public void setBoxID(Integer boxID) {
         this.boxID = boxID;
     }
+
+    public void addItem(String val){
+        contents.add(val);
+    }
 }

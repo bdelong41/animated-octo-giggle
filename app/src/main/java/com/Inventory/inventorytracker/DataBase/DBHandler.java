@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.Inventory.inventorytracker.model.Box;
 
@@ -45,7 +46,7 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
 //        dropTable();
 //        buildTable();
-        seedTable();
+//        seedTable();
     }
 
     // below method is for creating a database by running a sqlite query
@@ -70,7 +71,15 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // this method is use to add new course to our sqlite database.
-    public void addNewData(String packageName, String contents, String packageDescription, Integer packageID) {
+    public void addNewData(String packageName, List<String> contents, String packageDescription, Integer packageID) {
+
+        //stringifying contents
+        String content = "";
+        for(String item: contents){
+            content += (item + " ");
+        }
+
+        if(content.length() > 2) content = content.substring(0, content.length()-2);
 
         // on below line we are creating a variable for
         // our sqlite database and calling writable method
@@ -84,7 +93,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // on below line we are passing all values
         // along with its key and value pair.
         values.put(Owner, packageName);
-        values.put(Contents, contents);
+        values.put(Contents, content);
         values.put(Description, packageDescription);
         values.put(PackageID, packageID);
 
@@ -116,6 +125,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
     public Box getData(Integer ID){
+        Log.d("Database", "Called");
         Box box = null;
         String str = "";
         SQLiteDatabase db = this.getReadableDatabase();

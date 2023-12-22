@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.Inventory.inventorytracker.DataBase.DBHandler;
+import com.Inventory.inventorytracker.model.Box;
 import com.google.android.material.navigation.NavigationView;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         }
         else if(itemId == R.id.nav_settings){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment(null)).commit();
         }
         else if(itemId == R.id.nav_share){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShareFragment()).commit();
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void openSettings(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+    public void openSettings(Integer boxID){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment(boxID)).commit();
     }
 }

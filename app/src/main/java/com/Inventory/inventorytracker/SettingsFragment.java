@@ -11,16 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.Inventory.inventorytracker.DataBase.DBHandler;
 import com.Inventory.inventorytracker.model.Box;
+import com.Inventory.inventorytracker.model.MyListAdapter;
 import com.Inventory.inventorytracker.model.ScannedItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -47,7 +50,7 @@ public class SettingsFragment extends ListFragment {
     private TextView nameView;
 
     //local vars
-    private ArrayAdapter<String> adapter;
+//    private ArrayAdapter<String> adapter;
     private String[] contents;
     private Context context;
 
@@ -57,10 +60,19 @@ public class SettingsFragment extends ListFragment {
     private ScannedItem scannedItem;
     private Box currentBox;
 
-    private FloatingActionButton addFab;
+    private static MyListAdapter adapter;
 
-    public SettingsFragment() {
-        // Required empty public constructor
+    private FloatingActionButton addFab;
+    private FloatingActionButton saveFab;
+
+    private static Box selected;
+
+    public SettingsFragment(Integer boxID) {
+        boxID = 1;
+        dbHandler = new DBHandler(getActivity());
+        if (boxID != null && boxID != 0) {
+            selected = dbHandler.getData(boxID);
+        }
     }
 
     /**
@@ -73,7 +85,7 @@ public class SettingsFragment extends ListFragment {
      */
     // TODO: Rename and change types and number of parameters
     public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
+        SettingsFragment fragment = new SettingsFragment(null);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -88,22 +100,54 @@ public class SettingsFragment extends ListFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //retrieving data
+        dbHandler = new DBHandler(getActivity());
+        selected = new Box("Owner", new ArrayList<String>(Arrays.asList("")), 1, 1);
+        dbHandler.getData(selected.getId());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_settings, container, false);
+        FrameLayout ll = (FrameLayout) inflater.inflate(R.layout.fragment_settings, container, false);
         addFab = ll.findViewById(R.id.add);
+        saveFab = ll.findViewById(R.id.save);
 
         dbHandler = new DBHandler(getActivity());
-        Box box = dbHandler.getData(100);
-        String fruits[] = {"apple", "Bread"};
-//        adapter = new ArrayAdapter<String>(context, R.id.listViewLinearLayout, contents);
-//        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.fruits_list, android.R.layout.simple_list_item_1);
-        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, box.getContents());
-        setListAdapter(arrayAdapter);
+        if(selected == null){
+            adapter = new MyListAdapter(getActivity(), new ArrayList<String>());
+            adapter.addItem();
+        }
+        else {
+            adapter = new MyListAdapter(getActivity(), selected.getContents());
+            adapter.addItem();
+        }
+        setListAdapter(adapter);
+
+        addFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                adapter.addItem();
+                setListAdapter(adapter);
+            }
+        });
+
+        FloatingActionButton dbfab = ll.findViewById(R.id.addDatabase);
+
+        dbfab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                List<String> content = new ArrayList<String>(Arrays.asList("contents1", "contents2", "contents3"));
+                for(int index = 0; index < 10; index++){
+                    dbHandler.addNewData("Name" + Integer.toString(index), content, "Person's package", index);
+                }
+            }
+        });
+
+        saveFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                selected.setContents(adapter.getVals());
+            }
+        });
         return ll;
     }
 
@@ -113,7 +157,4 @@ public class SettingsFragment extends ListFragment {
         this.context = context;
     }
 
-    public void loadData(){
-        currentBox = dbHandler.getData(scannedItem.getBoxID());
-    }
 }

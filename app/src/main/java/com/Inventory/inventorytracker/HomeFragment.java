@@ -16,12 +16,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.Inventory.inventorytracker.model.ScannedItem;
@@ -62,11 +62,14 @@ public class HomeFragment extends Fragment {
 
     private FloatingActionButton fab;
 
+    private int scannedID;
+
     ScannedItem scannedItem = new ScannedItem();
 
 
     public HomeFragment() {
         // Required empty public constructor
+        scannedID = 0;
     }
 
     /**
@@ -158,10 +161,12 @@ public class HomeFragment extends Fragment {
 
                             for(Barcode barcode: barcodes){
                                 final String getValue = barcode.getRawValue();
-
+                                Log.d("scannedVal", getValue);
                                 try{
                                     //try casting barcode data to integer
                                     scannedItem.setBoxID(Integer.parseInt(getValue));
+                                    //saving box id
+                                    scannedID = Integer.parseInt(getValue);
                                 }catch(Exception e){
                                     e.printStackTrace();
                                 }
@@ -186,13 +191,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_home, container, false);
+        FrameLayout ll = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
         previewView = ll.findViewById(R.id.cameraPreview);
         fab = ll.findViewById(R.id.scan);
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
 //                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-                if(scannedItem.getBoxID() != null) ((MainActivity)getActivity()).openSettings();
+                if(scannedItem.getBoxID() != null) ((MainActivity)getActivity()).openSettings(scannedID);
 
             }
         });
