@@ -5,10 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AboutFragment">
-
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="boxID: "></EditText>
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="Owner: "></EditText>
+        </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/listView"/>
+    </LinearLayout>
 
 </RelativeLayout>

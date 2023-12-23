@@ -58,6 +58,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String content = "";
         for(String item: contents){
             content += (item + delimiter);//delimiting the contents
+            int num;
         }
         if(content.length() > 2) content = content.substring(0, content.length()-2);
         SQLiteDatabase db = this.getWritableDatabase();
@@ -80,7 +81,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Integer lastID = (int) db.insert(TABLE_NAME, null, values);
         db.close();
         if (lastID != -1) {
-            box = new Box("", new ArrayList<String>(), lastID, ID);
+            box = new Box("", new ArrayList<String>(), lastID, ID, "");
         }
         return box;
     }
@@ -94,7 +95,8 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.getString(1);
             //delimiting db string
             String[] contents = cursor.getString(3).split(delimiter);
-            box = new Box("Owner", new ArrayList<>(Arrays.asList(contents)), cursor.getInt(1), cursor.getInt(2));
+            box = new Box("Owner", new ArrayList<>(Arrays.asList(contents)), cursor.getInt(1),
+                    cursor.getInt(2), cursor.getString(4));
             cursor.close();
         }
         // at last closing our cursor
@@ -119,8 +121,9 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Owner, box.getOwner());
+        String content = getContent(box.getContents());
         values.put(Contents, getContent(box.getContents()));
-        values.put(Description, box.getOwner());
+        values.put(Description, box.getDescription());
         Integer success = db.update(TABLE_NAME, values, PackageID + "=?", new String[]{Integer.toString(box.getBoxID())});
         db.close();
         return success;
@@ -179,7 +182,7 @@ public class DBHandler extends SQLiteOpenHelper {
     String getContent(List<String> contents){
         String content = "";
         for(String item: contents){
-            content += item + " ";
+            content += item + delimiter;
         }
         if(content.length() > 2) content = content.substring(0, content.length()-2);
         return content;

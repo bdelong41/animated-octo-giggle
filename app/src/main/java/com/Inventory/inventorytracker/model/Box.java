@@ -9,12 +9,14 @@ public class Box {
 
     private Integer id;
     private Integer boxID;
+    private String description;
 
-    public Box(String owner, List<String> contents, Integer id, Integer boxID) {
+    public Box(String owner, List<String> contents, Integer id, Integer boxID, String description) {
         this.owner = owner;
         this.contents = contents;
         this.id = id;
         this.boxID = boxID;
+        this.description = description;
     }
 
     public String getOwner() {
@@ -31,6 +33,10 @@ public class Box {
 
     public Integer getBoxID() {
         return boxID;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setOwner(String owner) {
@@ -51,5 +57,9 @@ public class Box {
 
     public void addItem(String val){
         contents.add(val);
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

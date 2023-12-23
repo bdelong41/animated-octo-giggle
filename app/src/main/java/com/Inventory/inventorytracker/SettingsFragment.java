@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +40,8 @@ public class SettingsFragment extends ListFragment {
     private FloatingActionButton saveFab;
     private FloatingActionButton dbfab;
     private FrameLayout frameLayout;
+    private EditText owner;
+    private EditText description;
 
     //local vars
     private Context context;
@@ -86,7 +89,7 @@ public class SettingsFragment extends ListFragment {
         }
         //retrieving data
         dbHandler = new DBHandler(getActivity());
-        selected = new Box("Owner", new ArrayList<String>(Arrays.asList("")), 1, 1);
+        selected = new Box("Owner", new ArrayList<String>(Arrays.asList("")), 1, 1, "");
         dbHandler.getData(selected.getId());
     }
 
@@ -99,6 +102,8 @@ public class SettingsFragment extends ListFragment {
         addFab = frameLayout.findViewById(R.id.add);
         saveFab = frameLayout.findViewById(R.id.save);
         dbfab = frameLayout.findViewById(R.id.addDatabase);
+        owner = frameLayout.findViewById(R.id.owner);
+        description = frameLayout.findViewById(R.id.description);
 
         //ListView initialization
         dbHandler = new DBHandler(getActivity());
@@ -134,9 +139,15 @@ public class SettingsFragment extends ListFragment {
         saveFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 selected.setContents(adapter.getVals());
+                selected.setOwner(owner.toString());
+                selected.setDescription(description.toString());
                 dbHandler.updateData(selected);
             }
         });
+
+        //initializing owner and description
+        owner.setText("Owner: " + selected.getOwner());
+        description.setText("Description: " + selected.getDescription());
         return frameLayout;
     }
 

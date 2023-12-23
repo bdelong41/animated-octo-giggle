@@ -43,4 +43,24 @@
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_menu_save" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:text="Owner: "
+            android:id="@+id/owner">
+        </EditText>
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:text="Description: "
+            android:id="@+id/description">
+        </EditText>
+    </LinearLayout>
 </FrameLayout>
