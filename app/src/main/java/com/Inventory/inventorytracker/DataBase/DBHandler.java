@@ -125,10 +125,10 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
     public Box getData(Integer ID){
+        SQLiteDatabase db = this.getReadableDatabase();
         Log.d("Database", "Called");
         Box box = null;
         String str = "";
-        SQLiteDatabase db = this.getReadableDatabase();
 
         // on below line we are creating a cursor with query to
         // read data from database.

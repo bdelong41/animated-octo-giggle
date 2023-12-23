@@ -65,14 +65,12 @@ public class SettingsFragment extends ListFragment {
     private FloatingActionButton addFab;
     private FloatingActionButton saveFab;
 
+    private Integer selectedID;
+
     private static Box selected;
 
     public SettingsFragment(Integer boxID) {
-        boxID = 1;
-        dbHandler = new DBHandler(getActivity());
-        if (boxID != null && boxID != 0) {
-            selected = dbHandler.getData(boxID);
-        }
+        selectedID = boxID;
     }
 
     /**
@@ -114,7 +112,11 @@ public class SettingsFragment extends ListFragment {
         addFab = ll.findViewById(R.id.add);
         saveFab = ll.findViewById(R.id.save);
 
+
         dbHandler = new DBHandler(getActivity());
+        if (selectedID != null && selectedID != 0) {
+            selected = dbHandler.getData(selectedID);
+        }
         if(selected == null){
             adapter = new MyListAdapter(getActivity(), new ArrayList<String>());
             adapter.addItem();
