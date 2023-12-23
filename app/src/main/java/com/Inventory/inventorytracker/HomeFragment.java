@@ -45,25 +45,21 @@ import java.util.concurrent.ExecutionException;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-
+    //layout components
+    private PreviewView previewView;
+    private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
+    private Context context;
+    private FloatingActionButton fab;
+    FrameLayout frameLayout;
+    //private vars
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    private PreviewView previewView;
-    private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
-
-    private Context context;
-
-    private FloatingActionButton fab;
-
     private int scannedID;
-
     ScannedItem scannedItem = new ScannedItem();
 
 
@@ -187,13 +183,15 @@ public class HomeFragment extends Fragment {
         processCameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
     }
 
+    //Basically the initializer for the layout. All frame components are initialized as well as click listeners
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        FrameLayout ll = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
-        previewView = ll.findViewById(R.id.cameraPreview);
-        fab = ll.findViewById(R.id.scan);
+        //component initialization
+        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
+        previewView = frameLayout.findViewById(R.id.cameraPreview);
+        fab = frameLayout.findViewById(R.id.scan);
+        //defining listeners for buttons
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
 //                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -202,9 +200,7 @@ public class HomeFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
-        return ll;
-
-
+        return frameLayout;
     }
 
 
@@ -213,9 +209,4 @@ public class HomeFragment extends Fragment {
         super.onAttach(context);
         this.context = context;
     }
-
-    public void openView(){
-
-    }
-
 }

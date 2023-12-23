@@ -9,17 +9,14 @@ import androidx.fragment.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.Inventory.inventorytracker.DataBase.DBHandler;
 import com.Inventory.inventorytracker.model.Box;
 import com.Inventory.inventorytracker.model.MyListAdapter;
-import com.Inventory.inventorytracker.model.ScannedItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -32,7 +29,23 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends ListFragment {
+    //Layout Vars
+    private ListView listView;
+    private TextView nameView;
+    //buttons
+    private Button addButton;
+    private Button deleteButton;
+    private FloatingActionButton addFab;
+    private FloatingActionButton saveFab;
+    private FloatingActionButton dbfab;
+    private FrameLayout frameLayout;
 
+    //local vars
+    private Context context;
+    private DBHandler dbHandler;
+    private Integer selectedID;
+    private static MyListAdapter adapter;
+    private static Box selected;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,33 +54,6 @@ public class SettingsFragment extends ListFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    //xml vars
-    private ListView listView;
-
-    private Button addButton;
-    private Button deleteButton;
-    private TextView nameView;
-
-    //local vars
-//    private ArrayAdapter<String> adapter;
-    private String[] contents;
-    private Context context;
-
-    private ArrayList<String> currentContents;
-
-    private DBHandler dbHandler;
-    private ScannedItem scannedItem;
-    private Box currentBox;
-
-    private static MyListAdapter adapter;
-
-    private FloatingActionButton addFab;
-    private FloatingActionButton saveFab;
-
-    private Integer selectedID;
-
-    private static Box selected;
 
     public SettingsFragment(Integer boxID) {
         selectedID = boxID;
@@ -107,35 +93,36 @@ public class SettingsFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //component initialization
         // Inflate the layout for this fragment
-        FrameLayout ll = (FrameLayout) inflater.inflate(R.layout.fragment_settings, container, false);
-        addFab = ll.findViewById(R.id.add);
-        saveFab = ll.findViewById(R.id.save);
+        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_settings, container, false);
+        addFab = frameLayout.findViewById(R.id.add);
+        saveFab = frameLayout.findViewById(R.id.save);
+        dbfab = frameLayout.findViewById(R.id.addDatabase);
 
-
+        //ListView initialization
         dbHandler = new DBHandler(getActivity());
         if (selectedID != null && selectedID != 0) {
             selected = dbHandler.getData(selectedID);
         }
+        //creating new box if one doesn't exist
         if(selected == null){
             adapter = new MyListAdapter(getActivity(), new ArrayList<String>());
             adapter.addItem();
+            if (selectedID > 0) selected = dbHandler.createBox(selectedID);
         }
         else {
             adapter = new MyListAdapter(getActivity(), selected.getContents());
             adapter.addItem();
         }
         setListAdapter(adapter);
-
+        //setting button listeners
         addFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 adapter.addItem();
                 setListAdapter(adapter);
             }
         });
-
-        FloatingActionButton dbfab = ll.findViewById(R.id.addDatabase);
-
         dbfab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 List<String> content = new ArrayList<String>(Arrays.asList("contents1", "contents2", "contents3"));
@@ -144,13 +131,13 @@ public class SettingsFragment extends ListFragment {
                 }
             }
         });
-
         saveFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 selected.setContents(adapter.getVals());
+                dbHandler.updateData(selected);
             }
         });
-        return ll;
+        return frameLayout;
     }
 
     @Override
