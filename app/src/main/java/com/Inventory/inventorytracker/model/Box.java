@@ -62,4 +62,14 @@ public class Box {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString(){
+        String val = "";
+        for(int index = 0; index < contents.size(); index++){
+            val += contents.get(index);
+            if(index >= 3) break;
+        }
+        return ("" + owner + " " + val);
+    }
 }

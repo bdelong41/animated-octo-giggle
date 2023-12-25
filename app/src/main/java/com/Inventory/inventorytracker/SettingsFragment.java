@@ -90,7 +90,7 @@ public class SettingsFragment extends ListFragment {
         //retrieving data
         dbHandler = new DBHandler(getActivity());
         selected = new Box("Owner", new ArrayList<String>(Arrays.asList("")), 1, 1, "");
-        dbHandler.getData(selected.getId());
+        dbHandler.getPackage(selected.getId());
     }
 
     @Override
@@ -108,7 +108,7 @@ public class SettingsFragment extends ListFragment {
         //ListView initialization
         dbHandler = new DBHandler(getActivity());
         if (selectedID != null && selectedID != 0) {
-            selected = dbHandler.getData(selectedID);
+            selected = dbHandler.getPackage(selectedID);
         }
         //creating new box if one doesn't exist
         if(selected == null){

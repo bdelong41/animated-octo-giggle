@@ -12,7 +12,6 @@ import com.Inventory.inventorytracker.model.Box;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class DBHandler extends SQLiteOpenHelper {
     // creating a constant variables for our database.
@@ -85,7 +84,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return box;
     }
-    public Box getData(Integer ID){
+    public Box getPackage(Integer ID){
         SQLiteDatabase db = this.getReadableDatabase();
         Log.d("Database", "Called");
         Box box = null;
@@ -186,5 +185,27 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         if(content.length() > 2) content = content.substring(0, content.length()-2);
         return content;
+    }
+
+    public List<Box> getAllPackages(){
+        List<Box> packages = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Log.d("Database", "Called");
+        Box box = null;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        // moving our cursor to first position.
+        while (cursor.moveToNext()) {
+            cursor.getString(1);
+            //delimiting db string
+            String[] contents = cursor.getString(3).split(delimiter);
+            box = new Box("Owner", new ArrayList<>(Arrays.asList(contents)), cursor.getInt(1),
+                    cursor.getInt(2), cursor.getString(4));
+            packages.add(box);
+        }
+        // at last closing our cursor
+        // and returning our array list.
+
+        cursor.close();
+        return packages;
     }
 }

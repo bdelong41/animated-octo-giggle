@@ -3,20 +3,22 @@ package com.Inventory.inventorytracker;
 
 import android.os.Bundle;
 
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import androidx.appcompat.widget.SearchView;
 
-import com.Inventory.inventorytracker.model.MyListAdapter;
+import com.Inventory.inventorytracker.DataBase.DBHandler;
+import com.Inventory.inventorytracker.model.Box;
+import com.Inventory.inventorytracker.model.BoxAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +26,9 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class AboutFragment extends Fragment {
+
+    //layout components
+    private SearchView searchView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,10 +39,16 @@ public class AboutFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private RelativeLayout relativeLayout;
+
     String s[] = new String[]{
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"
     };
     final ArrayList<String> list = new ArrayList<>();
+
+    private List<Box> boxes;
+    private List<Box> filteredList;
+    private BoxAdapter boxAdapter;
 
 
     public AboutFragment() {
@@ -79,11 +90,54 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        boxes = getData();
+        if(boxes.size() == 0) return relativeLayout;
         // Inflate the layout for this fragment
-        RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_about, container, false);
-        ListView listView = (ListView) ll.findViewById(R.id.listView);
-        MyListAdapter adapter = new MyListAdapter(getActivity(), s);
+        relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_about, container, false);
+        ListView listView = (ListView) relativeLayout.findViewById(R.id.listView);
+        searchView = relativeLayout.findViewById(R.id.search_bar);
+        BoxAdapter adapter = new BoxAdapter(getActivity(), boxes);
         listView.setAdapter(adapter);
-        return ll;
+
+        //setting onclick listeners
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filteredList = new ArrayList<>();
+                for(Box item: boxes){
+                    //searching its flavor text
+                    if(item.toString().toLowerCase().contains(newText)){
+                        filteredList.add(item);
+                    }
+                    //searching its contents
+                    else {
+                        for(String content: item.getContents()){
+                            if(content.toLowerCase().contains(newText)) {
+                                filteredList.add(item);
+                                break;
+                            }
+                        }
+                    }
+                }
+                boxAdapter = new BoxAdapter(getActivity(), filteredList);
+                listView.setAdapter(boxAdapter);
+                return false;
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
+                Box selected = boxAdapter.getItem(pos);
+                ((MainActivity)getActivity()).openSettings(selected.getBoxID());
+            }
+        });
+        return relativeLayout;
+    }
+    List<Box> getData(){
+        DBHandler dbHandler = new DBHandler(getActivity());
+        return dbHandler.getAllPackages();
     }
 }
