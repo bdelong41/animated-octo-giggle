@@ -102,7 +102,6 @@ public class ShareFragment extends Fragment {
                     getParentFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new SettingsFragment(boxList.get(position).getBoxID()))
                             .addToBackStack(null).commit();
-
                 }
             }
         });
