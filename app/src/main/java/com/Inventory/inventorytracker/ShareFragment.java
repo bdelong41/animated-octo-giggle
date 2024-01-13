@@ -4,9 +4,24 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
+import com.Inventory.inventorytracker.DAO.DBHandler;
+import com.Inventory.inventorytracker.DAO.Data;
+import com.Inventory.inventorytracker.DAO.PackageDAOImpl;
+import com.Inventory.inventorytracker.model.Box;
+import com.Inventory.inventorytracker.model.BoxAdapter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +38,12 @@ public class ShareFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ListView listView;
+
+    private List<Box> boxList;
+
+
 
     public ShareFragment() {
         // Required empty public constructor
@@ -59,6 +80,32 @@ public class ShareFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_share, container, false);
+        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_share, container, false);
+        DBHandler dbHandler = new DBHandler(getActivity());
+        BoxAdapter boxAdapter = new BoxAdapter(getActivity(), dbHandler.getAllPackages());
+        listView = relativeLayout.findViewById(R.id.shareListView);
+        List<String> list = new ArrayList<>();
+        boxList = dbHandler.getAllPackages();
+        for(Box box: boxList){
+            list.add(box.getDescription());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
+//        listView.setAdapter(boxAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                if(position < boxList.size()){
+                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new SettingsFragment(boxList.get(position).getBoxID()))
+                            .addToBackStack(null).commit();
+
+                }
+            }
+        });
+        return relativeLayout;
     }
 }

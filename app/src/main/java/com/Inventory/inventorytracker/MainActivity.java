@@ -14,8 +14,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.Inventory.inventorytracker.DataBase.DBHandler;
-import com.Inventory.inventorytracker.model.Box;
 import com.google.android.material.navigation.NavigationView;
 import com.google.common.util.concurrent.ListenableFuture;
 

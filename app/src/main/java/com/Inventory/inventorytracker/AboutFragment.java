@@ -10,14 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import androidx.appcompat.widget.SearchView;
 
-import com.Inventory.inventorytracker.DataBase.DBHandler;
+import com.Inventory.inventorytracker.DAO.DBHandler;
 import com.Inventory.inventorytracker.model.Box;
 import com.Inventory.inventorytracker.model.BoxAdapter;
 
@@ -54,6 +52,7 @@ public class AboutFragment extends Fragment {
     private List<Box> filteredList;
     private BoxAdapter boxAdapter;
 
+    private ListView listView;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -98,7 +97,7 @@ public class AboutFragment extends Fragment {
         if(boxes.size() == 0) return relativeLayout;
         // Inflate the layout for this fragment
         relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_about, container, false);
-        ListView listView = (ListView) relativeLayout.findViewById(R.id.listView);
+        listView = (ListView) relativeLayout.findViewById(R.id.listView);
         searchView = relativeLayout.findViewById(R.id.search_bar);
         BoxAdapter adapter = createAdapter(getActivity(), boxes);
         listView.setAdapter(adapter);
@@ -132,14 +131,14 @@ public class AboutFragment extends Fragment {
                 return false;
             }
         });
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
-//                Log.d("test", "clicked");
-//                Box selected = boxAdapter.getItem(pos);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
+                Log.d("ListItemClick", "clicked");
+                Box selected = boxAdapter.getItem(pos);
 //                ((MainActivity)getActivity()).openSettings(selected.getBoxID());
-//            }
-//        });
+            }
+        });
         return relativeLayout;
     }
     List<Box> getData(){
@@ -149,13 +148,14 @@ public class AboutFragment extends Fragment {
 
     BoxAdapter createAdapter(Activity activity, List<Box> items){
         BoxAdapter adapter = new BoxAdapter(activity, items);
-        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("Test", "Called on Click!");
-                ((MainActivity)getActivity()).openSettings(items.get(i).getBoxID());
-            }
-        });
+//        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d("experimentTest", "Called on Click!");
+////                ((MainActivity)getActivity()).openSettings(items.get(i).getBoxID());
+//            }
+//        });
+
         return adapter;
     }
 }

@@ -1,4 +1,4 @@
-package com.Inventory.inventorytracker.DataBase;
+package com.Inventory.inventorytracker.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;

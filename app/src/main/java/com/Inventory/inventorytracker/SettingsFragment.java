@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.Inventory.inventorytracker.DataBase.DBHandler;
+import com.Inventory.inventorytracker.DAO.DBHandler;
 import com.Inventory.inventorytracker.model.Box;
 import com.Inventory.inventorytracker.model.MyListAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
