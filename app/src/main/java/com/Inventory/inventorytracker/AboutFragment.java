@@ -43,11 +43,6 @@ public class AboutFragment extends Fragment {
 
     private RelativeLayout relativeLayout;
 
-    String s[] = new String[]{
-            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"
-    };
-    final ArrayList<String> list = new ArrayList<>();
-
     private List<Box> boxes;
     private List<Box> filteredList;
     private BoxAdapter boxAdapter;
@@ -56,11 +51,6 @@ public class AboutFragment extends Fragment {
 
     public AboutFragment() {
         // Required empty public constructor
-        for (int i = 0; i < s.length; i++) {
-            list.add(s[i]);
-        }
-
-
     }
 
     /**

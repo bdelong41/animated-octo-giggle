@@ -14,8 +14,8 @@ public class Box {
     public Box(String owner, List<String> contents, Integer id, Integer boxID, String description) {
         this.owner = owner;
         this.contents = contents;
-        this.id = id;
-        this.boxID = boxID;
+        this.id = id; //database id
+        this.boxID = boxID;// boxes ID
         this.description = description;
     }
 

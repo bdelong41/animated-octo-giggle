@@ -14,13 +14,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.Inventory.inventorytracker.DAO.DBHandler;
-import com.Inventory.inventorytracker.DAO.Data;
-import com.Inventory.inventorytracker.DAO.PackageDAOImpl;
 import com.Inventory.inventorytracker.model.Box;
 import com.Inventory.inventorytracker.model.BoxAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -99,8 +96,10 @@ public class ShareFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 if(position < boxList.size()){
+                    Box box = boxList.get(position);
+                    Log.d("ItemClickTest", "" + position + ": " + boxList.get(position).getBoxID());
                     getParentFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new SettingsFragment(boxList.get(position).getBoxID()))
+                            new EditPackageFragment(boxList.get(position).getBoxID()))
                             .addToBackStack(null).commit();
                 }
             }

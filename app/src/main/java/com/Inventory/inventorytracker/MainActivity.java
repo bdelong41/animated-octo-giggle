@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScannerFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         item.getItemId();
         int itemId = item.getItemId();
         if(itemId == R.id.nav_home){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScannerFragment()).commit();
         }
         else if(itemId == R.id.nav_settings){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment(null)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EditPackageFragment(null)).commit();
         }
         else if(itemId == R.id.nav_share){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShareFragment()).commit();
@@ -83,6 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void openSettings(Integer boxID){
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment(boxID)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EditPackageFragment(boxID)).commit();
     }
 }

@@ -41,10 +41,10 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link ScannerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class ScannerFragment extends Fragment {
     //layout components
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
     ScannedItem scannedItem = new ScannedItem();
 
 
-    public HomeFragment() {
+    public ScannerFragment() {
         // Required empty public constructor
         scannedID = 0;
     }
@@ -77,8 +77,8 @@ public class HomeFragment extends Fragment {
      * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static ScannerFragment newInstance(String param1, String param2) {
+        ScannerFragment fragment = new ScannerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -188,7 +188,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //component initialization
-        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
+        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_scanner, container, false);
         previewView = frameLayout.findViewById(R.id.cameraPreview);
         fab = frameLayout.findViewById(R.id.scan);
         //defining listeners for buttons

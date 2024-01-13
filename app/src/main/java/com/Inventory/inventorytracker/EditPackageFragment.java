@@ -26,10 +26,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
+ * Use the {@link EditPackageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends ListFragment {
+public class EditPackageFragment extends ListFragment {
     //Layout Vars
     private ListView listView;
     private TextView nameView;
@@ -58,8 +58,8 @@ public class SettingsFragment extends ListFragment {
     private String mParam1;
     private String mParam2;
 
-    public SettingsFragment(Integer boxID) {
-        selectedID = boxID;
+    public EditPackageFragment(Integer boxID) {
+        this.selectedID = boxID;
     }
 
     /**
@@ -71,8 +71,8 @@ public class SettingsFragment extends ListFragment {
      * @return A new instance of fragment SettingsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment(null);
+    public static EditPackageFragment newInstance(String param1, String param2) {
+        EditPackageFragment fragment = new EditPackageFragment(null);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -98,7 +98,7 @@ public class SettingsFragment extends ListFragment {
                              Bundle savedInstanceState) {
         //component initialization
         // Inflate the layout for this fragment
-        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_settings, container, false);
+        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_edit_package, container, false);
         addFab = frameLayout.findViewById(R.id.add);
         saveFab = frameLayout.findViewById(R.id.save);
         dbfab = frameLayout.findViewById(R.id.addDatabase);

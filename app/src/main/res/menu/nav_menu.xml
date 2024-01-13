@@ -10,22 +10,22 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/nav_home"
-            android:title="Home"/>
+            android:title="Scan"/>
 
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/nav_settings"
-            android:title="Settings"/>
+            android:title="Edit Package"/>
 
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/nav_share"
-            android:title="Share"/>
+            android:title="Search"/>
 
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/nav_about"
-            android:title="About Us"/>
+            android:title="Advanced"/>
     </group>
     <item
         android:title="">

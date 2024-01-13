@@ -195,11 +195,11 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         // moving our cursor to first position.
         while (cursor.moveToNext()) {
-            cursor.getString(1);
+            Integer num = cursor.getInt(0);
             //delimiting db string
             String[] contents = cursor.getString(3).split(delimiter);
-            box = new Box("Owner", new ArrayList<>(Arrays.asList(contents)), cursor.getInt(1),
-                    cursor.getInt(2), cursor.getString(4));
+            box = new Box(cursor.getString(2), new ArrayList<>(Arrays.asList(contents)), cursor.getInt(0),
+                    cursor.getInt(1), cursor.getString(4));
             packages.add(box);
         }
         // at last closing our cursor
