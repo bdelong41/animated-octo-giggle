@@ -22,10 +22,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ShareFragment#newInstance} factory method to
+ * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShareFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,7 +42,7 @@ public class ShareFragment extends Fragment {
 
 
 
-    public ShareFragment() {
+    public SearchFragment() {
         // Required empty public constructor
     }
 
@@ -55,8 +55,8 @@ public class ShareFragment extends Fragment {
      * @return A new instance of fragment ShareFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ShareFragment newInstance(String param1, String param2) {
-        ShareFragment fragment = new ShareFragment();
+    public static SearchFragment newInstance(String param1, String param2) {
+        SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,7 +77,7 @@ public class ShareFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_share, container, false);
+        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_search, container, false);
         DBHandler dbHandler = new DBHandler(getActivity());
         BoxAdapter boxAdapter = new BoxAdapter(getActivity(), dbHandler.getAllPackages());
         listView = relativeLayout.findViewById(R.id.shareListView);
