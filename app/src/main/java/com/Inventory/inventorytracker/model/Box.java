@@ -1,5 +1,7 @@
 package com.Inventory.inventorytracker.model;
 
+import android.util.Log;
+
 import java.util.List;
 
 public class Box {
@@ -67,9 +69,11 @@ public class Box {
     public String toString(){
         String val = "";
         for(int index = 0; index < contents.size(); index++){
+
             val += contents.get(index);
             if(index >= 3) break;
         }
-        return ("" + owner + " " + val);
+        Log.d("ToStringBox", val);
+        return ("" + owner + " " + description);
     }
 }

@@ -86,7 +86,6 @@ public class DBHandler extends SQLiteOpenHelper {
     }
     public Box getPackage(Integer ID){
         SQLiteDatabase db = this.getReadableDatabase();
-        Log.d("Database", "Called");
         Box box = null;
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE pID = " + ID + " limit 1", null);
         // moving our cursor to first position.
@@ -94,7 +93,7 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.getString(1);
             //delimiting db string
             String[] contents = cursor.getString(3).split(delimiter);
-            box = new Box("Owner", new ArrayList<>(Arrays.asList(contents)), cursor.getInt(1),
+            box = new Box(cursor.getString(2), new ArrayList<>(Arrays.asList(contents)), cursor.getInt(1),
                     cursor.getInt(2), cursor.getString(4));
             cursor.close();
         }
@@ -190,21 +189,52 @@ public class DBHandler extends SQLiteOpenHelper {
     public List<Box> getAllPackages(){
         List<Box> packages = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Log.d("Database", "Called");
         Box box = null;
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-        // moving our cursor to first position.
         while (cursor.moveToNext()) {
-            Integer num = cursor.getInt(0);
             //delimiting db string
             String[] contents = cursor.getString(3).split(delimiter);
-            box = new Box(cursor.getString(2), new ArrayList<>(Arrays.asList(contents)), cursor.getInt(0),
+            box = new Box(cursor.getString(2), Arrays.asList(contents), cursor.getInt(0),
                     cursor.getInt(1), cursor.getString(4));
+            box.setContents(Arrays.asList(contents));
             packages.add(box);
         }
-        // at last closing our cursor
-        // and returning our array list.
+        cursor.close();
+        return packages;
+    }
+    public Box getFirst(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Box box = null;
 
+        String query = "Select * from " + TABLE_NAME + " limit 1";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToNext();
+        Integer num = cursor.getInt(0);
+        //delimiting db string
+        String[] contents = cursor.getString(3).split(delimiter);
+        box = new Box(cursor.getString(2), new ArrayList<>(Arrays.asList(contents)), cursor.getInt(0),
+                cursor.getInt(1), cursor.getString(4));
+        cursor.close();
+        return box;
+    }
+
+    //Acts as a world search
+    public List<Box> getRelated(String data){
+        List<Box> packages = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Box box = null;
+        String comparator = "%data%";
+        String query = "select * from " + TABLE_NAME + " where contents like " + comparator +
+                " or description like " + comparator + "or name like " + comparator + ";";
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        while (cursor.moveToNext()) {
+            //delimiting db string
+            String[] contents = cursor.getString(3).split(delimiter);
+            box = new Box(cursor.getString(2), Arrays.asList(contents), cursor.getInt(0),
+                    cursor.getInt(1), cursor.getString(4));
+            box.setContents(Arrays.asList(contents));
+            packages.add(box);
+        }
         cursor.close();
         return packages;
     }

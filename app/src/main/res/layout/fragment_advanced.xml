@@ -4,24 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutFragment">
+    tools:context=".AdvancedFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="?android:attr/activatedBackgroundIndicator"
-        android:descendantFocusability="blocksDescendants">
+        >
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="371dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_bar"
                 android:layout_width="410dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="1dp"
-                android:layout_marginBottom="2dp"
-                android:id="@+id/search_bar"
-></androidx.appcompat.widget.SearchView>
+                android:layout_marginBottom="2dp"></androidx.appcompat.widget.SearchView>
         </LinearLayout>
     <ListView
         android:layout_width="match_parent"

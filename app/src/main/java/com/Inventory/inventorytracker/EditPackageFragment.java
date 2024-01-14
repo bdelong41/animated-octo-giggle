@@ -46,7 +46,7 @@ public class EditPackageFragment extends ListFragment {
     //local vars
     private Context context;
     private DBHandler dbHandler;
-    private Integer selectedID;
+    private Integer selectedID;//database id of the package
     private static MyListAdapter adapter;
     private static Box selected;
     // TODO: Rename parameter arguments, choose names that match
@@ -58,8 +58,9 @@ public class EditPackageFragment extends ListFragment {
     private String mParam1;
     private String mParam2;
 
-    public EditPackageFragment(Integer boxID) {
-        this.selectedID = boxID;
+
+    public EditPackageFragment(Integer id) {
+        selectedID = id;
     }
 
     /**
@@ -87,18 +88,17 @@ public class EditPackageFragment extends ListFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //retrieving data
-        dbHandler = new DBHandler(getActivity());
-        selected = new Box("Owner", new ArrayList<String>(Arrays.asList("")), 1, 1, "");
-        dbHandler.getPackage(selected.getId());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        dbHandler = new DBHandler(getActivity());
+        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_edit_package, container,
+                false);// Inflate the layout for this fragment
+
         //component initialization
-        // Inflate the layout for this fragment
-        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_edit_package, container, false);
         addFab = frameLayout.findViewById(R.id.add);
         saveFab = frameLayout.findViewById(R.id.save);
         dbfab = frameLayout.findViewById(R.id.addDatabase);
@@ -106,20 +106,15 @@ public class EditPackageFragment extends ListFragment {
         description = frameLayout.findViewById(R.id.description);
 
         //ListView initialization
-        dbHandler = new DBHandler(getActivity());
         if (selectedID != null && selectedID != 0) {
             selected = dbHandler.getPackage(selectedID);
         }
         //creating new box if one doesn't exist
         if(selected == null){
             adapter = new MyListAdapter(getActivity(), new ArrayList<String>());
-            adapter.addItem();
             if (selectedID > 0) selected = dbHandler.createBox(selectedID);
         }
-        else {
-            adapter = new MyListAdapter(getActivity(), selected.getContents());
-            adapter.addItem();
-        }
+        adapter = new MyListAdapter(getActivity(), selected.getContents());
         setListAdapter(adapter);
         //setting button listeners
         addFab.setOnClickListener(new View.OnClickListener() {
